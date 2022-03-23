@@ -1,31 +1,51 @@
 <template>
   <div class="inputBox shadow">
-    <input type="text" v-model="newTodoItem">
+    <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo" />
     <span class="addContainer" v-on:click="addTodo">
       <i class="addBtn fas fa-plus" aria-hidden="true"></i>
     </span>
+    <modal v-if="showModal" @close="showModal = false">
+      <!--
+      vue3 부터 slot은 사용 안 함. 작동은 됨
+    -->
+      <h3 slot="header">
+        경고!
+        <i
+          class="closeModalBtn fas fa-times"
+          @click="showModal = !showModal"
+        ></i>
+      </h3>
+      <div slot="body">무언가를 입력해 주세요</div>
+    </modal>
   </div>
 </template>
 
 <script>
+import AlertModal from "./common/AlertModal.vue";
 export default {
-  data: function() {
+  data: function () {
     return {
-      newTodoItem: ''
-    }
+      newTodoItem: "",
+      showModal: false,
+    };
+  },
+  components: {
+    Modal: AlertModal,
   },
   methods: {
-    addTodo: function() {
-      if (this.newTodoItem !== '') {
-        this.$emit('addItem', this.newTodoItem);
+    addTodo: function () {
+      if (this.newTodoItem.length > 0) {
+        this.$emit("addItem", this.newTodoItem);
         this.clearInput();
+      } else {
+        this.showModal = !this.showModal;
       }
     },
-    clearInput: function() {
-      this.newTodoItem = '';
-    }
-  }
-}
+    clearInput: function () {
+      this.newTodoItem = "";
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -44,7 +64,7 @@ input:focus {
 }
 .addContainer {
   float: right;
-  background: linear-gradient(to right, #6478FB, #8763FB);
+  background: linear-gradient(to right, #6478fb, #8763fb);
   display: block;
   width: 3rem;
   border-radius: 0 5px 5px 0;
@@ -52,5 +72,8 @@ input:focus {
 .addBtn {
   color: white;
   vertical-align: middle;
+}
+.closeModalBtn {
+  color: #42b983;
 }
 </style>

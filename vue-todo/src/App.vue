@@ -2,48 +2,57 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <TodoInput v-on:addItem="addOneItem"></TodoInput>
-    <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem" v-on:toggleItem="toggleOneItem"></TodoList>
+    <TodoList
+      v-bind:propsdata="todoItems"
+      v-on:removeItem="removeOneItem"
+      v-on:toggleItem="toggleOneItem"
+    ></TodoList>
     <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
   </div>
 </template>
 
 <script>
-import TodoHeader from './components/TodoHeader.vue'
-import TodoInput from './components/TodoInput.vue'
-import TodoList from './components/TodoList.vue'
-import TodoFooter from './components/TodoFooter.vue'
+import TodoHeader from "./components/TodoHeader.vue";
+import TodoInput from "./components/TodoInput.vue";
+import TodoList from "./components/TodoList.vue";
+import TodoFooter from "./components/TodoFooter.vue";
 
 export default {
-  data: function() {
+  data: function () {
     return {
-      todoItems: []
-    }
+      todoItems: [],
+      newkey: 0,
+    };
   },
   methods: {
-    addOneItem: function(todoItem) {
-      var obj = {completed: false, item: todoItem};
-      localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
+    addOneItem: function (todoItem) {
+      var obj = { completed: false, item: todoItem };
+      this.newkey++;
+
+      localStorage.setItem(this.newkey, JSON.stringify(obj));
+      this.todoItems.unshift(obj);
     },
-    removeOneItem: function(todoItem, index) {
+    removeOneItem: function (todoItem, index) {
       this.todoItems.splice(index, 1);
       localStorage.removeItem(todoItem.item);
     },
-    toggleOneItem: function(todoItem, index) {
+    toggleOneItem: function (todoItem, index) {
       todoItem.completed = !todoItem.completed;
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearAllItems: function() {
+    clearAllItems: function () {
       this.todoItems = [];
       localStorage.clear();
-    }
+    },
   },
-  created: function() {
+  created: function () {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+        if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
+          this.todoItems.push(
+            JSON.parse(localStorage.getItem(localStorage.key(i)))
+          );
         }
       }
     }
@@ -52,15 +61,15 @@ export default {
     TodoHeader: TodoHeader,
     TodoInput: TodoInput,
     TodoList: TodoList,
-    TodoFooter: TodoFooter
-  }  
-}
+    TodoFooter: TodoFooter,
+  },
+};
 </script>
 
 <style>
 body {
   text-align: center;
-  background-color: #F6F6F8;
+  background-color: #f6f6f8;
 }
 input {
   border-style: groove;
@@ -70,6 +79,6 @@ button {
   border-style: groove;
 }
 .shadow {
-  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03)
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
 }
 </style>
