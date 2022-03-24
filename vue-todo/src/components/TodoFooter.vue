@@ -7,11 +7,11 @@
 <script>
 export default {
   methods: {
-    clearTodo: function() {
-      this.$emit('clearAll');
-    }
-  }
-}
+    clearTodo: () => {
+      this.$emit("clearAll");
+    },
+  },
+};
 </script>
 
 <style scoped>
