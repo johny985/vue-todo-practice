@@ -23,7 +23,7 @@
 <script>
 import AlertModal from "./common/AlertModal.vue";
 export default {
-  data: () => {
+  data: function () {
     return {
       newTodoItem: "",
       showModal: false,
@@ -33,7 +33,7 @@ export default {
     Modal: AlertModal,
   },
   methods: {
-    addTodo: () => {
+    addTodo: function () {
       if (this.newTodoItem.length > 0) {
         this.$emit("addItem", this.newTodoItem);
         this.clearInput();
@@ -41,7 +41,7 @@ export default {
         this.showModal = !this.showModal;
       }
     },
-    clearInput: () => {
+    clearInput: function () {
       this.newTodoItem = "";
     },
   },

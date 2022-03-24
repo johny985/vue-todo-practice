@@ -18,35 +18,35 @@ import TodoList from "./components/TodoList.vue";
 import TodoFooter from "./components/TodoFooter.vue";
 
 export default {
-  data: () => {
+  data: function () {
     return {
       todoItems: [],
       newkey: 0,
     };
   },
   methods: {
-    addOneItem: (todoItem) => {
+    addOneItem: function (todoItem) {
       var obj = { completed: false, item: todoItem };
       this.newkey++;
 
       localStorage.setItem(this.newkey, JSON.stringify(obj));
       this.todoItems.unshift(obj);
     },
-    removeOneItem: (todoItem, index) => {
+    removeOneItem: function (todoItem, index) {
       this.todoItems.splice(index, 1);
       localStorage.removeItem(todoItem.item);
     },
-    toggleOneItem: (todoItem, index) => {
+    toggleOneItem: function (todoItem, index) {
       todoItem.completed = !todoItem.completed;
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearAllItems: () => {
+    clearAllItems: function () {
       this.todoItems = [];
       localStorage.clear();
     },
   },
-  created: () => {
+  created: function () {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
