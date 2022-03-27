@@ -7,7 +7,7 @@
 <script>
 export default {
   methods: {
-    clearTodo: () => {
+    clearTodo() {
       this.$emit("clearAll");
     },
   },
