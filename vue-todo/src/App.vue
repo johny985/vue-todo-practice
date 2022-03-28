@@ -20,17 +20,18 @@ import TodoFooter from "./components/TodoFooter.vue";
 export default {
   data() {
     return {
-      todoItems: [],
-      newkey: 0,
+      // todoItems: [],
+      // newkey: 0,
     };
   },
   methods: {
     addOneItem(todoItem) {
       const obj = { completed: false, item: todoItem };
-      this.newkey++;
+      // this.newkey++;
+      this.$store.state.newKey++;
 
-      localStorage.setItem(this.newkey, JSON.stringify(obj));
-      this.todoItems.unshift(obj);
+      localStorage.setItem(this.$store.state.newKey, JSON.stringify(obj));
+      this.$store.state.todoItems.unshift(obj);
     },
     removeOneItem(todoItem, index) {
       this.todoItems.splice(index, 1);
@@ -42,26 +43,15 @@ export default {
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
     clearAllItems() {
-      this.todoItems = [];
+      this.$store.state.todoItems = [];
       localStorage.clear();
     },
   },
-  created() {
-    if (localStorage.length > 0) {
-      for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
-          this.todoItems.push(
-            JSON.parse(localStorage.getItem(localStorage.key(i)))
-          );
-        }
-      }
-    }
-  },
   components: {
-    TodoHeader: TodoHeader,
-    TodoInput: TodoInput,
-    TodoList: TodoList,
-    TodoFooter: TodoFooter,
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter,
   },
 };
 </script>
