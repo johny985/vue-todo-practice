@@ -22,6 +22,7 @@
 
 <script>
 import AlertModal from "./common/AlertModal.vue";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
